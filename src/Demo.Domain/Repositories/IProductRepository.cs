@@ -8,4 +8,5 @@ public interface IProductRepository
     Task<bool> NameExistsAsync(string name, CancellationToken cancellationToken = default);
     Task<Product> CreateAsync(Product product, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<Product>> ListAsync(CancellationToken cancellationToken = default);
+    Task<Product?> UpdateAsync(Product product, CancellationToken cancellationToken = default);
 }
