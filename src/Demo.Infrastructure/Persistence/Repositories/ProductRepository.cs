@@ -29,13 +29,19 @@ public sealed class ProductRepository(IApplicationDbContext context)
     public async Task<bool> NameForUpdateExistsAsync(string name, Guid publicId,
         CancellationToken cancellationToken = default) =>
         await DbSet.AnyAsync(product => product.Name == name && product.PublicId != publicId, cancellationToken);
-    public async Task<Product> UpdateAsync(Product product,Guid publicId ,CancellationToken cancellationToken = default)
+    public async Task<Product?> UpdateAsync(Product product,Guid publicId ,CancellationToken cancellationToken = default)
     {
         var aboutToBeUpdated = await DbSet.FindAsync(publicId,cancellationToken);
-        aboutToBeUpdated.Name = product.Name;
-        aboutToBeUpdated.Price = product.Price;
-        aboutToBeUpdated.Description = product.Description;
-        aboutToBeUpdated.Status = product.Status;
-        return aboutToBeUpdated;
+        if (aboutToBeUpdated is null)
+        {
+            return null;
+        }
+        else
+        {
+            aboutToBeUpdated.Name = product.Name;
+            aboutToBeUpdated.Price = product.Price;
+            return aboutToBeUpdated;  
+        }
+        
     }
 }
