@@ -44,6 +44,13 @@ public static class ProductEndpoints
             })
             .WithName("GetProduct");
 
+        group.MapPut("/{publicId:guid}", (Guid publicId) =>
+        {
+            var product = publicId;
+            return product != Guid.Empty  ? Results.Ok($"Product updated successfully, {product}") : Results.NotFound("Product to be updated not found");
+        })
+            .WithName("UpdateProduct");
+
         return app;
     }
 }
