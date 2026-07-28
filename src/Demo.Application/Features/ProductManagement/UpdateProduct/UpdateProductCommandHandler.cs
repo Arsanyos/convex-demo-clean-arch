@@ -19,6 +19,7 @@ public sealed class UpdateProductCommandHandler(
             Description = command.Description,
             Price = command.Price,
             PublicId = command.PublicId,
+            Status = command.Status,
             
         };
         var publicId = command.PublicId;
