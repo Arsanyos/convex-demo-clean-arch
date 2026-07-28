@@ -6,7 +6,7 @@ public sealed record UpdateProductDto(
     long Id,
     Guid PublicId,
     string Name,
-    string Description,
+    string? Description,
     decimal Price,
     ProductStatus Status
     );

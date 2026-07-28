@@ -11,7 +11,7 @@ public sealed class UpdateProductCommandHandler(
     IUnitOfWork unitOfWork) 
     : ICommandHandler<UpdateProductCommand, UpdateProductDto>, IRequestHandler<UpdateProductCommand, UpdateProductDto>
 {
-    public async Task<UpdateProductDto> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
+    public async Task<UpdateProductDto?> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
         var product = new Product
         {
@@ -26,14 +26,17 @@ public sealed class UpdateProductCommandHandler(
         
         var updated =  await productRepository.UpdateAsync(product,publicId,cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
-
-        return new UpdateProductDto(
-            updated.Id,
-            updated.PublicId,
-            updated.Name,
-            updated.Description,
-            updated.Price,
-            updated.Status
-        );
+        if (updated is not null)
+        {
+            return new UpdateProductDto(
+                updated.Id,
+                updated.PublicId,
+                updated.Name,
+                updated.Description,
+                updated.Price,
+                updated.Status
+            );
+        }
+        return null;
     }
 }

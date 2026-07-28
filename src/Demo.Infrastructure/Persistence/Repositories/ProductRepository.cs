@@ -31,7 +31,7 @@ public sealed class ProductRepository(IApplicationDbContext context)
         await DbSet.AnyAsync(product => product.Name == name && product.PublicId != publicId, cancellationToken);
     public async Task<Product?> UpdateAsync(Product product,Guid publicId ,CancellationToken cancellationToken = default)
     {
-        var aboutToBeUpdated = await DbSet.FindAsync(publicId,cancellationToken);
+        var aboutToBeUpdated = await DbSet.FindAsync(new object?[] { publicId },cancellationToken);
         if (aboutToBeUpdated is null)
         {
             return null;
@@ -40,6 +40,8 @@ public sealed class ProductRepository(IApplicationDbContext context)
         {
             aboutToBeUpdated.Name = product.Name;
             aboutToBeUpdated.Price = product.Price;
+            aboutToBeUpdated.Status = product.Status;
+            aboutToBeUpdated.Description = product.Description;
             return aboutToBeUpdated;  
         }
         
