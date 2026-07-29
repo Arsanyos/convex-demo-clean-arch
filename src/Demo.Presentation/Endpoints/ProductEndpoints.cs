@@ -69,7 +69,7 @@ public static class ProductEndpoints
             var results = await mediator.Send(
                 new DeleteProductCommand
                 {
-                    PublicId = request.PublicId
+                    PublicId = publicId
                 },
                 cancellationToken
             );
