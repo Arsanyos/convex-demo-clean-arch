@@ -11,7 +11,7 @@ public sealed class UpdateProductCommandHandler(
     IUnitOfWork unitOfWork) 
     : ICommandHandler<UpdateProductCommand, UpdateProductDto>, IRequestHandler<UpdateProductCommand, UpdateProductDto>
 {
-    public async Task<UpdateProductDto?> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
+    public async Task<UpdateProductDto> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
         var product = new Product
         {
