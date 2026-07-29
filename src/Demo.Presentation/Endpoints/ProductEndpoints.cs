@@ -1,5 +1,6 @@
 using Demo.Application;
 using Demo.Application.Features.ProductManagement.CreateProduct;
+using Demo.Application.Features.ProductManagement.DeleteProduct;
 using Demo.Application.Features.ProductManagement.GetProduct;
 using Demo.Application.Features.ProductManagement.ListProducts;
 using Demo.Application.Features.ProductManagement.UpdateProduct;
@@ -62,6 +63,18 @@ public static class ProductEndpoints
                 return result is null ? Results.NotFound() : Results.Ok(result);
             })
             .WithName("UpdateProduct");
+        
+        group.MapDelete("/{publicId:guid}", async (Guid publicId, DeleteProductRequest request, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            var results = await mediator.Send(
+                new DeleteProductCommand
+                {
+                    PublicId = request.PublicId
+                },
+                cancellationToken
+            );
+            return results ? "Product Deleted Succesfully" : "Product to delete not found";
+        }).WithName("DeleteProduct");
 
         return app;
     }
@@ -78,3 +91,6 @@ public sealed record UpdateProductRequest(
     string Description,
     decimal Price,
     ProductStatus Status );
+
+public sealed record DeleteProductRequest(
+    Guid PublicId );
