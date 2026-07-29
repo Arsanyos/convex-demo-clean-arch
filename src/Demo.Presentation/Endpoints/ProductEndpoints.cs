@@ -59,7 +59,7 @@ public static class ProductEndpoints
                     },
                     cancellationToken
                 );
-                return Results.Ok(result);
+                return result is null ? Results.NotFound() : Results.Ok(result);
             })
             .WithName("UpdateProduct");
 
