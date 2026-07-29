@@ -31,7 +31,7 @@ public sealed class ProductRepository(IApplicationDbContext context)
         await DbSet.AnyAsync(product => product.Name == name && product.PublicId != publicId, cancellationToken);
     public async Task<Product?> UpdateAsync(Product product,Guid publicId ,CancellationToken cancellationToken = default)
     {
-        var aboutToBeUpdated = await DbSet.FirstOrDefaultAsync(product => product.PublicId == publicId, cancellationToken);
+        var aboutToBeUpdated = await DbSet.FirstOrDefaultAsync(dbProduct => dbProduct.PublicId == publicId, cancellationToken);
         if (aboutToBeUpdated is null)
         {
             return null;
