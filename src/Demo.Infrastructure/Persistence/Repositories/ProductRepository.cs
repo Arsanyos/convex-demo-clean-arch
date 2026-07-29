@@ -46,4 +46,17 @@ public sealed class ProductRepository(IApplicationDbContext context)
         }
         
     }
+
+    public async Task<Product?> DeleteAsync(Guid publicId, CancellationToken cancellationToken = default)
+    {
+        var productEntityToBeDeleted =
+            await DbSet.FirstOrDefaultAsync(dbProduct => dbProduct.PublicId == publicId, cancellationToken);
+        if (productEntityToBeDeleted is null)
+        {
+            return null;
+        } 
+        DbSet.Remove(productEntityToBeDeleted);
+        return productEntityToBeDeleted;
+
+    }
 }
