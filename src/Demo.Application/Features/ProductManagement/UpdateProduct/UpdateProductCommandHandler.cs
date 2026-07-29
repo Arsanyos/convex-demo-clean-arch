@@ -9,9 +9,9 @@ namespace Demo.Application.Features.ProductManagement.UpdateProduct;
 public sealed class UpdateProductCommandHandler(
     IProductRepository productRepository,
     IUnitOfWork unitOfWork) 
-    : ICommandHandler<UpdateProductCommand, UpdateProductDto>, IRequestHandler<UpdateProductCommand, UpdateProductDto>
+    : ICommandHandler<UpdateProductCommand, UpdateProductDto?>, IRequestHandler<UpdateProductCommand, UpdateProductDto?>
 {
-    public async Task<UpdateProductDto> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
+    public async Task<UpdateProductDto?> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
         var product = new Product
         {

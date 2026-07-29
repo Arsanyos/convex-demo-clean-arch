@@ -3,7 +3,7 @@ using Demo.Contracts.Enums;
 
 namespace Demo.Application.Features.ProductManagement.UpdateProduct;
 
-public record UpdateProductCommand : ICommand<UpdateProductDto>
+public record UpdateProductCommand : ICommand<UpdateProductDto?>
 {
     public required Guid PublicId { get; init; }
     public required string Name { get; init; }
