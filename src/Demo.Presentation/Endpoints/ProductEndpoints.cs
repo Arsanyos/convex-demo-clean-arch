@@ -2,6 +2,8 @@ using Demo.Application;
 using Demo.Application.Features.ProductManagement.CreateProduct;
 using Demo.Application.Features.ProductManagement.GetProduct;
 using Demo.Application.Features.ProductManagement.ListProducts;
+using Demo.Application.Features.ProductManagement.UpdateProduct;
+using Demo.Contracts.Enums;
 using Demo.Domain.Exceptions;
 using Demo.Infrastructure;
 using MediatR;
@@ -44,11 +46,20 @@ public static class ProductEndpoints
             })
             .WithName("GetProduct");
 
-        group.MapPut("/{publicId:guid}", (Guid publicId) =>
-        {
-            var product = publicId;
-            return product != Guid.Empty  ? Results.Ok($"Product updated successfully, {product}") : Results.NotFound("Product to be updated not found");
-        })
+        group.MapPut("/{publicId:guid}",async (UpdateProductRequest request, IMediator mediator, CancellationToken cancellationToken) =>
+            {
+                var result = await mediator.Send(
+                    new UpdateProductCommand
+                    {
+                        PublicId = request.PublicId,
+                        Name = request.Name,
+                        Description = request.Description,
+                        Price = request.Price,
+                        Status = request.Status
+                    },
+                    cancellationToken
+                );
+            })
             .WithName("UpdateProduct");
 
         return app;
@@ -60,3 +71,9 @@ public sealed record CreateProductRequest(
     string? Description,
     decimal Price,
     Demo.Contracts.Enums.ProductStatus Status = Demo.Contracts.Enums.ProductStatus.Active);
+public sealed record UpdateProductRequest(
+    Guid PublicId,
+    string Name,
+    string Description,
+    decimal Price,
+    ProductStatus Status );

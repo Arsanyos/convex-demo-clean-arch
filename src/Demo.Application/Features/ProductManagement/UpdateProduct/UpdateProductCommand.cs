@@ -1,5 +1,4 @@
 using Demo.Application.Common;
-using Demo.Application.Features.ProductManagement.CreateProduct;
 using Demo.Contracts.Enums;
 
 namespace Demo.Application.Features.ProductManagement.UpdateProduct;
