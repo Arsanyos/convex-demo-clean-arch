@@ -64,7 +64,7 @@ public static class ProductEndpoints
             })
             .WithName("UpdateProduct");
         
-        group.MapDelete("/{publicId:guid}", async (Guid publicId, DeleteProductRequest request, IMediator mediator, CancellationToken cancellationToken) =>
+        group.MapDelete("/{publicId:guid}", async (Guid publicId, IMediator mediator, CancellationToken cancellationToken) =>
         {
             var results = await mediator.Send(
                 new DeleteProductCommand
@@ -73,7 +73,7 @@ public static class ProductEndpoints
                 },
                 cancellationToken
             );
-            return results ? "Product Deleted Succesfully" : "Product to delete not found";
+            return results ? Results.Ok("Product Deleted Succesfully") : Results.NotFound("Product to delete not found");
         }).WithName("DeleteProduct");
 
         return app;
