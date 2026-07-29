@@ -9,17 +9,18 @@ namespace Demo.Application.Features.ProductManagement.DeleteProduct;
 public sealed class DeleteProductCommandHandler(
     IProductRepository productRepository,
     IUnitOfWork unitOfWork
-) : ICommandHandler<DeleteProductCommand, string>, IRequestHandler<DeleteProductCommand, string>
+) : ICommandHandler<DeleteProductCommand, bool>, IRequestHandler<DeleteProductCommand, bool>
 {
-    public async Task<string> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
     {
         var toBeDeletedProductPublicId = command.PublicId;
 
         var deleted = await productRepository.DeleteAsync(toBeDeletedProductPublicId, cancellationToken);
         if (deleted is null)
         {
-            return "not found";
+            return false;
         }
-        return "deleted";
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+        return true;
     }
 }
