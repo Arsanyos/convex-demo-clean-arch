@@ -73,7 +73,7 @@ public static class ProductEndpoints
                 },
                 cancellationToken
             );
-            return results ? Results.Ok("Product Deleted Succesfully") : Results.NotFound("Product to delete not found");
+            return results ? Results.Ok("Product Deleted Successfully") : Results.NotFound("Product to delete not found");
         }).WithName("DeleteProduct");
 
         return app;
@@ -92,5 +92,3 @@ public sealed record UpdateProductRequest(
     decimal Price,
     ProductStatus Status );
 
-public sealed record DeleteProductRequest(
-    Guid PublicId );
