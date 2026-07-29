@@ -46,12 +46,12 @@ public static class ProductEndpoints
             })
             .WithName("GetProduct");
 
-        group.MapPut("/{publicId:guid}",async (UpdateProductRequest request, IMediator mediator, CancellationToken cancellationToken) =>
+        group.MapPut("/{publicId:guid}",async (Guid publicId, UpdateProductRequest request, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var result = await mediator.Send(
                     new UpdateProductCommand
                     {
-                        PublicId = request.PublicId,
+                        PublicId = publicId,
                         Name = request.Name,
                         Description = request.Description,
                         Price = request.Price,
@@ -59,6 +59,7 @@ public static class ProductEndpoints
                     },
                     cancellationToken
                 );
+                return Results.Ok(result);
             })
             .WithName("UpdateProduct");
 
