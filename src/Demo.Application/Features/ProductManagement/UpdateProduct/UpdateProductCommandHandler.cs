@@ -25,9 +25,9 @@ public sealed class UpdateProductCommandHandler(
         var publicId = command.PublicId;
         
         var updated =  await productRepository.UpdateAsync(product,publicId,cancellationToken);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
         if (updated is not null)
         {
+         await unitOfWork.SaveChangesAsync(cancellationToken);
             return new UpdateProductDto(
                 updated.Id,
                 updated.PublicId,
