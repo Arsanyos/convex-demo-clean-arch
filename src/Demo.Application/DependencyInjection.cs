@@ -1,5 +1,6 @@
 using Demo.Application.Common.Behaviors;
 using Demo.Application.Features.ProductManagement.CreateProduct;
+using Demo.Application.Features.ProductManagement.UpdateProduct;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ public static class ApplicationServiceRegistration
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblyContaining<CreateProductCommandHandler>();
+            cfg.RegisterServicesFromAssemblyContaining<UpdateProductCommandHandler>();
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         });
 
